@@ -4,6 +4,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {extendTheme, HStack, NativeBaseProvider, Switch, Text, useColorMode,} from "native-base";
 import {FindAnswer} from "./components/FindAnswer";
 import {AnswersList} from "./components/AnswersList";
+import {ErrorNumber} from "./components/ErrorNumber";
 
 // Define the config
 const config = {
@@ -32,19 +33,9 @@ export default function App() {
                         options={{title: 'Welcome'}}
                     />
                     <Stack.Screen name="Answers" component={AnswersList} />
+                    <Stack.Screen name="Error" component={ErrorNumber} />
                 </Stack.Navigator>
-                {/*                        <Stack.Group>
-                            <Stack.Screen
-                                name="FindAnswer"
-                                component={FindAnswer}
-                                options={{title: 'Welcome'}}
-                            />
-                            <Stack.Screen
-                                name="Answers"
-                                component={AnswersList}
-                            />
-                        </Stack.Group>*/}
-                <ToggleDarkMode/>
+                {/*<ToggleDarkMode/>*/}
             </NavigationContainer>
         </NativeBaseProvider>
     );

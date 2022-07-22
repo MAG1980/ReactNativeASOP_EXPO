@@ -1,7 +1,10 @@
 import {Button, Center, FormControl, Input, Stack} from "native-base";
 import React, {useEffect, useState} from "react";
+import {FontAwesome} from '@expo/vector-icons';
 
-export const FindAnswer = ({ navigation }) => {
+const answers = require('../answers_base/answers.json')
+
+export const FindAnswer = ({navigation}) => {
     const [isButtonDisabled, setIsButtonDisabled] = useState(true)
     const [questionNumber, setQuestionNumber] = useState('');
     const [errors, setErrors] = React.useState({
@@ -22,7 +25,21 @@ export const FindAnswer = ({ navigation }) => {
         // validate(questionNumber)
         console.log(questionNumber)
         setQuestionNumber('')
-        navigation.navigate('Answers')
+        const currentAnswers = answers[questionNumber]
+        console.log(currentAnswers)
+
+        if(currentAnswers){
+            const params = {
+                base_number: currentAnswers.base_number,
+                question: currentAnswers.question,
+                answers: currentAnswers.answers,
+            }
+            navigation.navigate('Answers', {...params})
+        } else{
+            navigation.navigate('Error')
+        }
+
+
     }
     const handleChangeNumber = (text: string) => {
         validateInput(text) ? console.log(`Валидация пройдена.`) : console.log(`Ошибка валидации. errors: ${errors}`)
@@ -76,10 +93,13 @@ export const FindAnswer = ({ navigation }) => {
             <Stack space={5}>
                 <Center>
                     <Input textAlign="center" autoFocus={true} keyboardType="numeric" value={questionNumber}
-                           onChangeText={handleChangeNumber} mb={5} p={5} w={{
+                           onChangeText={handleChangeNumber} mb={5} p={5}  w={{
                         base: "70%",
                         md: "100%"
-                    }} size="xl" placeholder="Введите номер вопроса"/>
+                    }}
+                           size="xl" placeholder="Введите номер вопроса"
+                           InputRightElement={<FontAwesome name="question-circle"  size={48} color="green"/>}
+                    />
 
                     {'symbol' in errors ? <FormControl.ErrorMessage mb={5}>{errors.symbol}</FormControl.ErrorMessage> :
                         <FormControl.HelperText mb={5}>
