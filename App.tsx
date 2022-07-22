@@ -1,6 +1,9 @@
 import React from "react";
-import {Center, extendTheme, HStack, NativeBaseProvider, Switch, Text, useColorMode, VStack,} from "native-base";
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {extendTheme, HStack, NativeBaseProvider, Switch, Text, useColorMode,} from "native-base";
 import {FindAnswer} from "./components/FindAnswer";
+import {AnswersList} from "./components/AnswersList";
 
 // Define the config
 const config = {
@@ -15,24 +18,34 @@ declare module "native-base" {
     interface ICustomTheme extends MyThemeType {
     }
 }
+
+const Stack = createNativeStackNavigator();
+
 export default function App() {
     return (
         <NativeBaseProvider>
-            <ToggleDarkMode/>
-            <Center
-                _dark={{bg: "blueGray.900"}}
-                _light={{bg: "blueGray.50"}}
-                px={4}
-                flex={1}
-            >
-
-                <FindAnswer/>
-
-                <VStack space={5} alignItems="center">
-                    {/*                    <NativeBaseIcon />
-                    <Heading size="lg">Welcome to NativeBase</Heading>*/}
-                </VStack>
-            </Center>
+            <NavigationContainer>
+                <Stack.Navigator initialRouteName="Home">
+                    <Stack.Screen
+                        name="Home"
+                        component={FindAnswer}
+                        options={{title: 'Welcome'}}
+                    />
+                    <Stack.Screen name="Answers" component={AnswersList} />
+                </Stack.Navigator>
+                {/*                        <Stack.Group>
+                            <Stack.Screen
+                                name="FindAnswer"
+                                component={FindAnswer}
+                                options={{title: 'Welcome'}}
+                            />
+                            <Stack.Screen
+                                name="Answers"
+                                component={AnswersList}
+                            />
+                        </Stack.Group>*/}
+                <ToggleDarkMode/>
+            </NavigationContainer>
         </NativeBaseProvider>
     );
 }
@@ -41,7 +54,7 @@ export default function App() {
 function ToggleDarkMode() {
     const {colorMode, toggleColorMode} = useColorMode();
     return (
-        <HStack space={2} alignItems="center">
+        <HStack mb={3} space={2} alignItems="center" alignSelf="center">
             <Text>Dark</Text>
             <Switch
                 isChecked={colorMode === "light"}

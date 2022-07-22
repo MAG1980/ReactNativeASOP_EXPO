@@ -1,7 +1,7 @@
 import {Button, Center, FormControl, Input, Stack} from "native-base";
 import React, {useEffect, useState} from "react";
 
-export const FindAnswer = () => {
+export const FindAnswer = ({ navigation }) => {
     const [isButtonDisabled, setIsButtonDisabled] = useState(true)
     const [questionNumber, setQuestionNumber] = useState('');
     const [errors, setErrors] = React.useState({
@@ -22,6 +22,7 @@ export const FindAnswer = () => {
         // validate(questionNumber)
         console.log(questionNumber)
         setQuestionNumber('')
+        navigation.navigate('Answers')
     }
     const handleChangeNumber = (text: string) => {
         validateInput(text) ? console.log(`Валидация пройдена.`) : console.log(`Ошибка валидации. errors: ${errors}`)
@@ -64,6 +65,13 @@ export const FindAnswer = () => {
     }
 
     return (
+        <Center
+            _dark={{bg: "blueGray.900"}}
+            _light={{bg: "blueGray.50"}}
+            px={4}
+            pt={20}
+            flex={1}
+        >
         <FormControl isRequired isInvalid={'length' in errors || 'symbol' in errors}>
             <Stack space={5}>
                 <Center>
@@ -77,14 +85,11 @@ export const FindAnswer = () => {
                         <FormControl.HelperText mb={5}>
                             Вводить можно только цифры
                         </FormControl.HelperText>}
-
                     {'length' in errors ?
                         <FormControl.ErrorMessage mb={5}>{errors.length}</FormControl.ErrorMessage> :
                         <FormControl.HelperText mb={5}>
                             Количество вопросов в базе не превышает 20 000
                         </FormControl.HelperText>}
-
-
                     <Button isDisabled={isButtonDisabled} p={5} w={{
                         base: "70%",
                         md: "100%"
@@ -98,10 +103,9 @@ export const FindAnswer = () => {
                             }}>Номер вопроса - обязательный параметр</FormControl.Label>
                         </Center>
                     </FormControl>
-
                 </Center>
             </Stack>
         </FormControl>
-
+        </Center>
     )
 }
