@@ -30,9 +30,9 @@ export default function App() {
                     <Stack.Screen
                         name="Home"
                         component={FindAnswer}
-                        options={{title: 'Welcome'}}
+                        options={{title: 'Справочник'}}
                     />
-                    <Stack.Screen name="Answers" component={AnswersList} />
+                    <Stack.Screen options={{title: 'Правильные ответы'}} name="Answers" component={AnswersList} />
                     <Stack.Screen name="Error" component={ErrorNumber} />
                 </Stack.Navigator>
                 {/*<ToggleDarkMode/>*/}

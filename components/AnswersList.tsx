@@ -1,7 +1,6 @@
-import {Box, Center, Heading, HStack, Icon, ScrollView, Text} from "native-base";
-import {FlatList} from "react-native";
-import { FontAwesome } from '@expo/vector-icons';
-import { Ionicons } from '@expo/vector-icons';
+import {Center, Flex, Heading, HStack, ScrollView, Stack, Text, View} from "native-base";
+import {Ionicons} from '@expo/vector-icons';
+
 
 export const AnswersList = ({route, navigation}) => {
     const {base_number, question, answers} = route.params
@@ -10,32 +9,39 @@ export const AnswersList = ({route, navigation}) => {
     console.log(question)
     console.log(answers)
     return (
-        <Center>
-            <ScrollView>
-                <Heading my={3}>
-                    Вопрос № {base_number}
-                </Heading>
+        <Center flex="1">
+            <Flex flexDirection="column" w="90%" justifyContent="space-between" flex="1">
+                <HStack flexDirection="column" w="95%" flex="1">
+                <Center>
+                    <Heading my={3}>
+                        Вопрос № {base_number}
+                    </Heading>
+                    <Text style={{textAlign: "center"}} w="100%" fontSize="md" italic colorScheme="primary">
+                        {question}
+                    </Text>
+                </Center>
 
-                <Text fontSize="xl" italic>
-                    {question}
-                </Text>
+                    <ScrollView flex="1">
+                        {answers.map((item) =>
+                            (<Stack bg="primary.500" rounded="lg" direction="row" flex="1" key={item}
+                                    justifyContent="space-around" mb="5%"
+                                    alignItems="center">
+                                <View flex="1" mx="5%">
+                                    <Ionicons name='md-checkmark-circle' size={32} color='green'/>
+                                </View>
+                                <Text color="white" flex="7" fontSize="lg" p="5%">{item}</Text>
+                            </Stack>)
+                        )}
+                    </ScrollView>
 
-                <FlatList  data={answers}
-                          renderItem={({item}) =>
-                              <Box  borderBottomWidth="1" _dark={{
-                                  borderColor: "gray.600"
-                              }} borderColor="coolGray.200" pl="4" pr="5" py="2">
-                                  <HStack space={1} w="80%" justifyContent="space-between" alignItems="center">
-                                      <Ionicons name='md-checkmark-circle' size={32} color='green' />
-                                      <Text fontSize="lg" py="2">{item}</Text>
-                                  </HStack>
-                              </Box>
-                          }
-                          keyExtractor={(item, index) => index.toString()}
-                />
-                <Ionicons onPress={ ()=>{navigation.goBack()}} name="arrow-back-circle" size={45} color="blue" />
-            </ScrollView>
+                </HStack>
 
+                <Center h="15%" justifyContent="center">
+                    <Ionicons onPress={() => {
+                        navigation.goBack()
+                    }} name="arrow-back-circle" size={50} color="blue"/>
+                </Center>
+            </Flex>
         </Center>
     )
 }

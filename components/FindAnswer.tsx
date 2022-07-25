@@ -1,4 +1,4 @@
-import {Button, Center, FormControl, Input, Stack} from "native-base";
+import {Button, Center, FormControl, Input, Stack, View} from "native-base";
 import React, {useEffect, useState} from "react";
 import {FontAwesome} from '@expo/vector-icons';
 
@@ -86,19 +86,22 @@ export const FindAnswer = ({navigation}) => {
             _dark={{bg: "blueGray.900"}}
             _light={{bg: "blueGray.50"}}
             px={4}
-            pt={20}
             flex={1}
         >
         <FormControl isRequired isInvalid={'length' in errors || 'symbol' in errors}>
-            <Stack space={5}>
+            <Stack>
                 <Center>
                     <Input textAlign="center" autoFocus={true} keyboardType="numeric" value={questionNumber}
-                           onChangeText={handleChangeNumber} mb={5} p={5}  w={{
+                           onChangeText={handleChangeNumber} onSubmitEditing={findQuestionAnswers} mb={5} p={5}  w={{
                         base: "70%",
                         md: "100%"
                     }}
-                           size="xl" placeholder="Введите номер вопроса"
-                           InputRightElement={<FontAwesome name="question-circle"  size={48} color="green"/>}
+                           size="md" placeholder="Введите номер вопроса"
+                           InputRightElement={
+                        <View mr="3">
+                            <FontAwesome name="question-circle"  size={48} color="green" />
+                        </View>
+                           }
                     />
 
                     {'symbol' in errors ? <FormControl.ErrorMessage mb={5}>{errors.symbol}</FormControl.ErrorMessage> :
